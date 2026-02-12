@@ -34,7 +34,8 @@ public class InputOutputManager {
      * Updates the input manager state.
      * Should be called once per frame.
      */
-    public void update() {
+    public void update(float delta) {
+        
         // Update mouse position
         mousePosition.x = Gdx.input.getX();
         mousePosition.y = Gdx.input.getY();

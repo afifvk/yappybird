@@ -7,16 +7,16 @@ import java.util.Stack;
 
 public class SceneManager {
 	
-    private EntityManager entity;
+    //private EntityManager entity;
     private Stack<Scene> stackScene;
     private Scene currentScene;
-    private boolean isPaused;
+    //private boolean isPaused;
 
     public SceneManager() {
-        entity = new EntityManager();
+        //entity = new EntityManager();
         stackScene = new Stack<Scene>();
         currentScene = null;
-        isPaused = false;
+        //isPaused = false;
     }
 
     public void pushScene(Scene scene) {
@@ -36,11 +36,11 @@ public class SceneManager {
         if (currentScene != null) {
             currentScene.onExit();
         }
-
-        currentScene = stackScene.isEmpty() ? null : stackScene.pop();
-
-        if (currentScene != null) {
+        if (!stackScene.isEmpty()) {
+            currentScene = stackScene.pop();
             currentScene.onEnter();
+        } else {
+            currentScene = null;
         }
     }
 

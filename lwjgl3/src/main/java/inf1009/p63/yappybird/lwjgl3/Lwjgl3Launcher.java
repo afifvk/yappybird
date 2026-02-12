@@ -2,7 +2,7 @@ package inf1009.p63.yappybird.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import inf1009.p63.yappybird.Main;
+//import inf1009.p63.yappybird.Main;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {

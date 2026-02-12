@@ -1,31 +1,26 @@
 package inf1009.p63.yappybird.lwjgl3;
 
-import java.util.ArrayList; 
-import java.util.Collections;
-import java.util.List;
-
+import java.util.ArrayList;
 
 public class EntityManager {
 
-    private final List<Entity> entities;
+    private ArrayList<Entity> entityList;
 
     public EntityManager() {
-        entities = new ArrayList<>();
+        entityList = new ArrayList<Entity>();
     }
 
     public void addEntity(Entity entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException("Entity cannot be null");
-        }
-        entities.add(entity);
+        entityList.add(entity);
+    }
+    
+    // THIS IS THE METHOD YOUR RENDERER NEEDS
+    public ArrayList<Entity> getEntities() {
+        return entityList;
     }
 
-    public void delete(Entity deleteEntity) {
-        entities.remove(deleteEntity);
-    }
-
-    // UML name is getEntity(): List<Entity>
-    public List<Entity> getEntity() {
-        return Collections.unmodifiableList(entities);
+    // Optional: Removes a specific entity
+    public void removeEntity(Entity entity) {
+        entityList.remove(entity);
     }
 }
