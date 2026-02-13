@@ -18,6 +18,10 @@ public class DropletScene extends Scene {
     private Texture dropImage;
     private Texture backgroundTexture; // For the street scene
     private Texture rainOverlayTexture;
+    private float bucketVelY = 0f;
+    private static final float GRAVITY = -900f;      // down
+    private static final float JUMP_SPEED = 450f;    // up
+    private static final float GROUND_Y = 20f; 
 
     //private Sound dropSound;
     //private Sound rainMusic;
@@ -95,27 +99,46 @@ public class DropletScene extends Scene {
 
     @Override
     public void update(float delta) {
-        // --- INPUT LOGIC (Move Bucket) ---
+        // INPUT LOGIC 
         inputManager.update(delta);
 
-        bucket.velocity.set(0,0);
+        // Reset only X input each frame
+        bucket.velocity.x = 0;
 
-        if(inputManager.isKeyPressed(Input.Keys.LEFT)) bucket.velocity.x -= 200;
+        if(inputManager.isKeyPressed(Input.Keys.LEFT))  bucket.velocity.x -= 200;
         if(inputManager.isKeyPressed(Input.Keys.RIGHT)) bucket.velocity.x += 200;
 
-        movementManager.keepInBounds(bucket,640);
+        //  JUMP TRIGGER only if on the ground.
+        boolean onGround = bucket.rectangle.y <= GROUND_Y + 0.5f;
+        if (onGround && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            bucketVelY = JUMP_SPEED;
+        }
+
+        // GRAVITY 
+        bucketVelY += GRAVITY * delta;
+        bucket.velocity.y = bucketVelY;
+
+        // Keep bucket in bounds horizontally
+        movementManager.keepInBounds(bucket, 640);
+
+        // Apply movement to all entities
         movementManager.update(this.entity.getEntities(), delta);
 
+        // GROUND CLAMP (after movement)
+        if (bucket.rectangle.y < GROUND_Y) {
+            bucket.rectangle.y = GROUND_Y;
+            bucketVelY = 0f;
+            bucket.velocity.y = 0f;
+        }
+
         //Rain animation effect
-        rainOffset -= 500* delta;
-        if(rainOffset <- 480) rainOffset =0;
+        rainOffset -= 500 * delta;
+        if(rainOffset < -480) rainOffset = 0;
 
-        // --- SPAWN LOGIC ---
-        // Check if we need to spawn a new drop (every 1 second = 1000000000 ns)
+        // SPAWN LOGIC 
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
-        
-        handleCollisions();
 
+        handleCollisions();
         stage.act(delta);
     }
 
