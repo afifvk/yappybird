@@ -20,8 +20,9 @@ public class TextureObject extends Entity implements iMovable {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, rectangle.x, rectangle.y);
+        batch.draw(texture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
+
     
     // Required by iMovable interface
     @Override

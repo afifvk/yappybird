@@ -19,9 +19,17 @@ public class DropletScene extends Scene {
     private Texture backgroundTexture; // For the street scene
     private Texture rainOverlayTexture;
     private float bucketVelY = 0f;
-    private static final float GRAVITY = -900f;      // down
+    private static final float GRAVITY = -650f;      // down
     private static final float JUMP_SPEED = 450f;    // up
     private static final float GROUND_Y = 20f; 
+    private Texture coinImage;
+    private TextureObject coin = null;
+    private float timeScale = 1f;
+    private boolean slowActive = false;
+    private float slowTimer = 0f;
+    private static final float SLOW_DURATION = 5f;
+    private long lastCoinTime = 0;
+    private static final long COIN_COOLDOWN = 5000000000L; // 5 seconds
 
     //private Sound dropSound;
     //private Sound rainMusic;
@@ -61,7 +69,9 @@ public class DropletScene extends Scene {
         dropImage = new Texture(Gdx.files.internal("droplet.png")); // or water.png
         backgroundTexture = new Texture(Gdx.files.internal("background.jpg")); // Make sure this exists!
         rainOverlayTexture = new Texture(Gdx.files.internal("rain_overlay.jpg")); // Use JPG or PNG
+        coinImage = new Texture(Gdx.files.internal("coin.png"));
 
+        // 2. Load sounds
         SoundManager.getInstance(null).loadSound("drop", "droplet.mp3");
     
         // 2. Load background music (optional)
@@ -97,10 +107,32 @@ public class DropletScene extends Scene {
         stage.addActor(scoreLabel);
     }
 
+    private void trySpawnCoin() {
+        if (coin != null) return;
+        if (slowActive) return;
+        if (TimeUtils.nanoTime() - lastCoinTime < COIN_COOLDOWN) return;
+        if (MathUtils.random() < 0.98f) return;
+
+        coin = new TextureObject(coinImage, MathUtils.random(0, 640 - 52), 480, 52, 52);
+        coin.setVelocity(0, -200);
+        this.entity.addEntity(coin);
+        lastCoinTime = TimeUtils.nanoTime();
+    }
+
     @Override
     public void update(float delta) {
         // INPUT LOGIC 
         inputManager.update(delta);
+
+        if (slowActive) {
+            slowTimer -= delta;
+            if (slowTimer <= 0f) {
+                slowActive = false;
+                timeScale = 1f;
+            }
+        }
+
+        trySpawnCoin();
 
         // Reset only X input each frame
         bucket.velocity.x = 0;
@@ -119,10 +151,8 @@ public class DropletScene extends Scene {
         bucket.velocity.y = bucketVelY;
 
         // Keep bucket in bounds horizontally
-        movementManager.keepInBounds(bucket, 640);
-
-        // Apply movement to all entities
-        movementManager.update(this.entity.getEntities(), delta);
+        movementManager.keepInBounds(bucket,640);
+        movementManager.update(this.entity.getEntities(), delta * timeScale);
 
         // GROUND CLAMP (after movement)
         if (bucket.rectangle.y < GROUND_Y) {
@@ -132,13 +162,14 @@ public class DropletScene extends Scene {
         }
 
         //Rain animation effect
-        rainOffset -= 500 * delta;
-        if(rainOffset < -480) rainOffset = 0;
+        rainOffset -= 500* delta;
+        if(rainOffset < -480) rainOffset =0;
 
         // SPAWN LOGIC 
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
-
+        
         handleCollisions();
+
         stage.act(delta);
     }
 
@@ -146,9 +177,25 @@ public class DropletScene extends Scene {
         Iterator<Entity> iter = this.entity.getEntities().iterator();
         while(iter.hasNext()) {
             Entity e = iter.next();
+
+            if (e == coin) {
+                if (collisionManager.checkCollision(coin, bucket)) {
+                    slowActive = true;
+                    slowTimer = SLOW_DURATION;
+                    timeScale = 0.5f;
+
+                    iter.remove();
+                    coin = null;
+                    continue;
+                } else if (coin.rectangle.y + coin.rectangle.height < 0) {
+                    iter.remove();
+                    coin = null;
+                    continue;
+                }
+            }
             
             // We only care about moving droplets, not the bucket
-            if(e instanceof TextureObject && e != bucket) {
+            if(e instanceof TextureObject && e != bucket && e != coin) {
                 TextureObject drop = (TextureObject) e;
                 
                 // Check 1: Did we catch it?
@@ -198,6 +245,7 @@ public class DropletScene extends Scene {
         // Clean up memory
         if(bucketImage != null) bucketImage.dispose();
         if(dropImage != null) dropImage.dispose();
+        if(coinImage != null) coinImage.dispose();
         if(backgroundTexture != null) backgroundTexture.dispose();
         if(rainOverlayTexture != null) rainOverlayTexture.dispose();
         if(stage != null) stage.dispose();
@@ -206,7 +254,7 @@ public class DropletScene extends Scene {
     
     // Helper function to create a drop
     private void spawnRaindrop() {
-        TextureObject drop = new TextureObject(dropImage, MathUtils.random(0, 800-64), 480, 64, 64);
+        TextureObject drop = new TextureObject(dropImage, MathUtils.random(0, 640-64), 480, 64, 64);
         drop.setVelocity(0,-200);
         this.entity.addEntity(drop);
         lastDropTime = TimeUtils.nanoTime();

@@ -1,4 +1,4 @@
-package inf1009.p63.yappybird.lwjgl3;
+   package inf1009.p63.yappybird.lwjgl3;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,7 +32,7 @@ public class Menu extends Scene {
         stage.addActor(table);
 
         // Create Buttons
-        TextButton startBtn = new TextButton("START GAME", skin);
+        TextButton startBtn = new TextButton("START", skin);
         TextButton exitBtn = new TextButton("EXIT", skin);
 
         // Add Listeners

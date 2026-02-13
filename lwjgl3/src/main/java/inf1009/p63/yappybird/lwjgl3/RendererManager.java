@@ -42,15 +42,11 @@ public class RendererManager {
     // Requirement: rendersprite(sprite, transform): void
     // Note: In 2D, a Rectangle acts as the 'transform' (Position & Size)
     public void renderSprite(Texture sprite, Rectangle transform) {
-        batch.draw(sprite, transform.x, transform.y);
+        batch.draw(sprite, transform.x, transform.y, transform.width, transform.height);
     }
     
     public void dispose() {
         batch.dispose();
         shape.dispose();
     }
-
-    
-
-
 }
