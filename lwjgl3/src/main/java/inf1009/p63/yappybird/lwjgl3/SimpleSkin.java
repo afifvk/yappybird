@@ -18,6 +18,7 @@ public class SimpleSkin {
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
+        pixmap.dispose();
 
         // 2. Add the default font
         skin.add("default", new BitmapFont());
@@ -46,3 +47,4 @@ public class SimpleSkin {
     }
 
 }
+ 

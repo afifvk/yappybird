@@ -39,7 +39,9 @@ public class GameMaster extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        //batch.dispose();
+        Scene current = sceneManager.getCurrent();
+        if (current != null) current.onExit();
+        SoundManager.getInstance(null).dispose();
     }
 
 	

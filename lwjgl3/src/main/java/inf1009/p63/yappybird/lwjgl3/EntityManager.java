@@ -23,4 +23,13 @@ public class EntityManager {
     public void removeEntity(Entity entity) {
         entityList.remove(entity);
     }
+
+    public void dispose() {
+        for (Entity e : entityList) {
+            if (e instanceof TextureObject) {
+                ((TextureObject) e).dispose();
+            }
+        }
+        entityList.clear();
+    }
 }

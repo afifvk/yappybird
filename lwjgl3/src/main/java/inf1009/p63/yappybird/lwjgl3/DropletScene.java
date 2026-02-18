@@ -98,8 +98,8 @@ public class DropletScene extends Scene {
 		this.skin = SimpleSkin.getSkin();
 
 		// 3. Create the Score Label
-		// "Score: 0" is the initial text
-		scoreLabel = new Label("Score: 0 | Missed: 0/10", skin);
+		// "Collected: 0" is the initial text
+		scoreLabel = new Label("Collected: 0 | Missed: 0/10", skin);
 
 		// 4. Position it (Top Left)
 		scoreLabel.setPosition(20, 480 - 40); // 20px from left, 40px from top
@@ -229,6 +229,7 @@ public class DropletScene extends Scene {
 					float slowPct = collisionManager.timeScaleToSlowdownPercent(timeScale);
 					showPopup(collisionManager.buildSlowdownPopupText(slowPct));
 
+
 					iter.remove();
 					coin = null;
 					continue;
@@ -250,7 +251,7 @@ public class DropletScene extends Scene {
 
 					// 1) Score changes
 					dropsGathered++;
-					scoreLabel.setText("Score: " + dropsGathered + " | Missed: " + dropsMissed + "/10");
+					scoreLabel.setText("Collected: " + dropsGathered + " | Missed: " + dropsMissed + "/10");
 					SoundManager.getInstance(null).playSound("drop");
 
 					// 2) Accuracy popup
@@ -263,7 +264,7 @@ public class DropletScene extends Scene {
 
 				else if (drop.rectangle.y + 64 < 0) {
 					dropsMissed++;
-					scoreLabel.setText("Score: " + dropsGathered + " | Missed: " + dropsMissed + "/10");
+					scoreLabel.setText("Collected: " + dropsGathered + " | Missed: " + dropsMissed + "/10");
 					System.out.println("Missed: " + dropsMissed);
 
 					// check if drops missed reached 10
@@ -297,7 +298,6 @@ public class DropletScene extends Scene {
 
 	@Override
 	public void onExit() {
-		// Clean up memory
 		if (bucketImage != null)
 			bucketImage.dispose();
 		if (dropImage != null)

@@ -19,6 +19,15 @@ public abstract class Scene {
     public abstract void onEnter();           // Setup (load textures)
     public abstract void onExit();            // Cleanup (dispose textures)
 
+    protected void disposeResources() {
+        if (rendererManager != null) {
+            rendererManager.dispose();
+        }
+        if (entity != null) {
+            entity.dispose();
+        }
+    }
+
     // Helper to let the Renderer see the entities
     public EntityManager getEntity() {
         return entity;

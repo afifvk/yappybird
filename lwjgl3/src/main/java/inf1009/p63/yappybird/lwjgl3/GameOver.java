@@ -34,7 +34,7 @@ public class GameOver extends Scene {
         stage.addActor(table);
 
         // Create Buttons
-        TextButton restartBtn = new TextButton("RESTART GAME", skin);
+        TextButton restartBtn = new TextButton("RESTART", skin);
         TextButton exitBtn = new TextButton("EXIT", skin);
         Label scoreLabel = new Label("Final Score: " + finalScore, skin);
 

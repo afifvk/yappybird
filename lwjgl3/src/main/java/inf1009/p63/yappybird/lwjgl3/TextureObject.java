@@ -36,5 +36,11 @@ public class TextureObject extends Entity implements iMovable {
         this.velocity.set(x, y);
     }
 
+    public void dispose() {
+        if (texture != null) {
+            texture.dispose();
+            texture = null;
+        }
+    }
 
 }

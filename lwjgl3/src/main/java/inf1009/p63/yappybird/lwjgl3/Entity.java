@@ -1,6 +1,5 @@
 package inf1009.p63.yappybird.lwjgl3;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Entity {
