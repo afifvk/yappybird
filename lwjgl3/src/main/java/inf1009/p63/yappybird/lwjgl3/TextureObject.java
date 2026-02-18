@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class TextureObject extends Entity implements iMovable {
 
-    public Texture texture;
-    public Rectangle rectangle;
-    public Vector2 velocity;
+    private Texture texture;
+    private Rectangle rectangle;
+    private Vector2 velocity;
     
     // Constructor matching the one you likely need
     public TextureObject(Texture tex, float x, float y, float width, float height) {
@@ -18,6 +18,18 @@ public class TextureObject extends Entity implements iMovable {
         this.rectangle = new Rectangle(x, y, width, height);
         this.bounds = this.rectangle; // Set the bounds to the rectangle for collision detection
         this.velocity = new Vector2(0,0);
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     public void draw(SpriteBatch batch) {
@@ -34,6 +46,14 @@ public class TextureObject extends Entity implements iMovable {
 
     public void setVelocity(float x, float y){
         this.velocity.set(x, y);
+    }
+
+    public void setVelocityX(float x) {
+        this.velocity.x = x;
+    }
+
+    public void setVelocityY(float y) {
+        this.velocity.y = y;
     }
 
     public void dispose() {

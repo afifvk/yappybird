@@ -3,7 +3,7 @@ package inf1009.p63.yappybird.lwjgl3;
 public class CollisionManager {
 
     public boolean checkCollision(TextureObject object1, TextureObject object2) {
-        return object1.rectangle.overlaps(object2.rectangle);
+        return object1.getRectangle().overlaps(object2.getRectangle());
     }
     // Droplet + Bucket  -> Accuracy (%)
 
@@ -14,13 +14,13 @@ public class CollisionManager {
      */
     
     public float calculateCatchAccuracyPercent(TextureObject droplet, TextureObject bucket) {
-        float dropletCenterX = droplet.rectangle.x + (droplet.rectangle.width / 2f);
-        float bucketCenterX  = bucket.rectangle.x  + (bucket.rectangle.width  / 2f);
+        float dropletCenterX = droplet.getRectangle().x + (droplet.getRectangle().width / 2f);
+        float bucketCenterX  = bucket.getRectangle().x  + (bucket.getRectangle().width  / 2f);
 
         float distance = Math.abs(dropletCenterX - bucketCenterX);
 
         // If droplet center is at bucket edge (half width away), accuracy should be ~0.
-        float maxDistance = bucket.rectangle.width / 2f;
+        float maxDistance = bucket.getRectangle().width / 2f;
         if (maxDistance <= 0f) return 0f;
 
         float accuracy = 100f - ((distance / maxDistance) * 100f);

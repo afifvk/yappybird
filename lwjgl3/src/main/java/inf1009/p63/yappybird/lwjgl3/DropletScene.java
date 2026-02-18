@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -131,10 +132,26 @@ public class DropletScene extends Scene {
 		if (MathUtils.random() < 0.98f)
 			return;
 
-		coin = new TextureObject(coinImage, MathUtils.random(0, 640 - 52), 480, 52, 52);
-		coin.setVelocity(0, -200);
-		this.entity.addEntity(coin);
-		lastCoinTime = TimeUtils.nanoTime();
+		for (int attempt = 0; attempt < 10; attempt++) {
+			float x = MathUtils.random(0, 640 - 52);
+			Rectangle candidate = new Rectangle(x, 480, 52, 52);
+			boolean overlaps = false;
+			for (Entity e : this.entity.getEntities()) {
+				if (e instanceof TextureObject && e != bucket && e != coin) {
+					if (candidate.overlaps(((TextureObject) e).getRectangle())) {
+						overlaps = true;
+						break;
+					}
+				}
+			}
+			if (!overlaps) {
+				coin = new TextureObject(coinImage, x, 480, 52, 52);
+				coin.setVelocity(0, -200);
+				this.entity.addEntity(coin);
+				lastCoinTime = TimeUtils.nanoTime();
+				return;
+			}
+		}
 	}
 
 	@Override
@@ -161,22 +178,22 @@ public class DropletScene extends Scene {
 		trySpawnCoin();
 
 		// Reset only X input each frame
-		bucket.velocity.x = 0;
+		bucket.setVelocityX(0);
 
 		if (inputManager.isKeyPressed(Input.Keys.LEFT))
-			bucket.velocity.x -= 200;
+			bucket.setVelocityX(bucket.getVelocity().x - 200);
 		if (inputManager.isKeyPressed(Input.Keys.RIGHT))
-			bucket.velocity.x += 200;
+			bucket.setVelocityX(bucket.getVelocity().x + 200);
 
 		// JUMP TRIGGER only if on the ground.
-		boolean onGround = bucket.rectangle.y <= GROUND_Y + 0.5f;
+		boolean onGround = bucket.getRectangle().y <= GROUND_Y + 0.5f;
 		if (onGround && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			bucketVelY = JUMP_SPEED;
 		}
 
 		// GRAVITY
 		bucketVelY += GRAVITY * delta;
-		bucket.velocity.y = bucketVelY;
+		bucket.setVelocityY(bucketVelY);
 
 		// Keep bucket in bounds horizontally
 		movementManager.keepInBounds(bucket, 640);
@@ -194,10 +211,10 @@ public class DropletScene extends Scene {
 		}
 
 		// GROUND CLAMP (after movement)
-		if (bucket.rectangle.y < GROUND_Y) {
-			bucket.rectangle.y = GROUND_Y;
+		if (bucket.getRectangle().y < GROUND_Y) {
+			bucket.getRectangle().y = GROUND_Y;
 			bucketVelY = 0f;
-			bucket.velocity.y = 0f;
+			bucket.setVelocityY(0f);
 		}
 
 		// Rain animation effect
@@ -235,7 +252,7 @@ public class DropletScene extends Scene {
 					continue;
 				}
 
-				else if (coin.rectangle.y + coin.rectangle.height < 0) {
+				else if (coin.getRectangle().y + coin.getRectangle().height < 0) {
 					iter.remove();
 					coin = null;
 					continue;
@@ -262,7 +279,7 @@ public class DropletScene extends Scene {
 					iter.remove();
 				}
 
-				else if (drop.rectangle.y + 64 < 0) {
+				else if (drop.getRectangle().y + 64 < 0) {
 					dropsMissed++;
 					scoreLabel.setText("Collected: " + dropsGathered + " | Missed: " + dropsMissed + "/10");
 					System.out.println("Missed: " + dropsMissed);

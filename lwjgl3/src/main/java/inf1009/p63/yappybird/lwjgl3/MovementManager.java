@@ -13,11 +13,11 @@ public class MovementManager {
 
 
     public void keepInBounds(TextureObject obj, float screenWidth){
-        if (obj.rectangle.x < 0) {
-            obj.rectangle.x = 0;
+        if (obj.getRectangle().x < 0) {
+            obj.getRectangle().x = 0;
         }
-        if(obj.rectangle.x > screenWidth - obj.rectangle.width){
-            obj.rectangle.x = screenWidth - obj.rectangle.width;
+        if(obj.getRectangle().x > screenWidth - obj.getRectangle().width){
+            obj.getRectangle().x = screenWidth - obj.getRectangle().width;
         } 
             
     }

@@ -33,7 +33,7 @@ public class RendererManager {
             if (e instanceof TextureObject) {
                 TextureObject obj = (TextureObject) e;
                 // We extract the 'sprite' (texture) and 'transform' (rectangle)
-                renderSprite(obj.texture, obj.rectangle);
+                renderSprite(obj.getTexture(), obj.getRectangle());
             }
         }
         batch.end();
