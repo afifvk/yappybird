@@ -16,6 +16,7 @@ public class TextureObject extends Entity implements iMovable {
         super(x, y, width, height);
         this.texture = tex;
         this.rectangle = new Rectangle(x, y, width, height);
+        this.bounds = this.rectangle; // Set the bounds to the rectangle for collision detection
         this.velocity = new Vector2(0,0);
     }
 
