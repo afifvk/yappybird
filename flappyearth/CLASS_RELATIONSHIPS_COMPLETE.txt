@@ -1,0 +1,1288 @@
+================================================================================
+COMPLETE CLASS RELATIONSHIP MAP - FLAPPYEARTH PROJECT
+All 71 Java Classes Analyzed
+================================================================================
+
+=======================================
+ENGINE PACKAGE - INTERFACES (5 classes)
+=======================================
+
+CLASS: Collidable
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.engine.interfaces
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - None (interface defines contract only)
+USED BY (Classes that depend on this):
+  - Entity (indirectly through GameEntity)
+  - GameEntity
+  - CollisionManager
+  - EntityManager
+---
+
+CLASS: Movable
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.engine.interfaces
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - None (interface defines contract only)
+USED BY (Classes that depend on this):
+  - Player
+  - EntityManager
+  - MovementManager
+  - MovementStep
+---
+
+CLASS: Renderable
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.engine.interfaces
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - RenderData (return type)
+USED BY (Classes that depend on this):
+  - Entity (indirectly through GameEntity)
+  - GameEntity
+  - EntityManager
+  - RendererManager
+---
+
+CLASS: Updatable
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.engine.interfaces
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - None (interface defines contract only)
+USED BY (Classes that depend on this):
+  - Entity (indirectly through GameEntity)
+  - GameEntity
+  - EntityManager
+  - UpdateStep
+---
+
+CLASS: StepManager
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.engine.interfaces
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - None (interface defines contract only)
+USED BY (Classes that depend on this):
+  - GameLoop
+  - InputStep
+  - MovementStep
+  - UpdateStep
+  - CollisionStep
+  - SpawnStep
+  - ScoreStep
+  - EffectStep
+  - CleanupStep
+  - GameOverStep
+---
+
+=======================================
+ENGINE PACKAGE - ENTITIES (2 classes)
+=======================================
+
+CLASS: Entity
+TYPE: Abstract Class
+LOCATION: inf1009.p63.flappyearth.engine.entities
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Rectangle bounds (com.badlogic.gdx.math)
+USED BY (Classes that depend on this):
+  - GameEntity (extends)
+  - EntityManager
+  - CleanupStep
+---
+
+CLASS: RenderData
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.entities
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (data class with primitives)
+USED BY (Classes that depend on this):
+  - Renderable (return type)
+  - GameEntity
+  - RendererManager
+---
+
+=======================================
+ENGINE PACKAGE - CORE (4 classes)
+=======================================
+
+CLASS: Scene
+TYPE: Abstract Class
+LOCATION: inf1009.p63.flappyearth.engine.core
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - RendererManager rendererManager
+USED BY (Classes that depend on this):
+  - SceneManager
+  - GameScene (extends)
+  - MenuScene (extends)
+  - GameOverScene (extends)
+---
+
+CLASS: SceneManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.core
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Scene current
+  - Stack<Scene> stack
+USED BY (Classes that depend on this):
+  - GameMaster
+  - GameScene
+  - MenuScene
+  - GameOverScene
+---
+
+CLASS: GameMaster
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.core
+EXTENDS: ApplicationAdapter (com.badlogic.gdx)
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SceneManager sceneManager
+  - GameContextManager contextManager
+  - MenuScene (creates instance)
+USED BY (Classes that depend on this):
+  - Lwjgl3Launcher
+---
+
+CLASS: GameContextManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.core
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - AssetManager assetManager
+  - RendererManager rendererManager
+  - InputOutputManager inputOutputManager
+  - MovementManager movementManager
+  - CollisionManager collisionManager
+  - SoundManager soundManager
+  - EntityManager entityManager
+  - EventManager eventManager
+  - TimeManager timeManager
+  - RandomManager randomManager
+USED BY (Classes that depend on this):
+  - GameMaster
+  - GameScene
+  - MenuScene
+  - GameOverScene
+---
+
+=========================================
+ENGINE PACKAGE - MANAGERS (10 classes)
+=========================================
+
+CLASS: AssetManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - com.badlogic.gdx.assets.AssetManager gdxAssets
+  - InternalFileHandleResolver (com.badlogic.gdx)
+  - Texture (com.badlogic.gdx)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - RendererManager
+  - GameScene
+---
+
+CLASS: CollisionManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Rectangle (com.badlogic.gdx.math)
+  - Collidable (interface)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - CollisionStep
+---
+
+CLASS: EntityManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - List<Entity> entities
+  - List<Entity> addQueue
+  - List<Entity> removeQueue
+  - Entity
+  - Updatable
+  - Renderable
+  - Collidable
+  - Movable
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - Scene
+  - PlayerManager
+  - ObstacleManager
+  - CollectibleManager
+  - GameScene
+  - MovementStep
+  - UpdateStep
+  - CollisionStep
+  - SpawnStep
+  - CleanupStep
+  - EffectStep
+  - ObstacleFactoryManager
+  - CollectibleFactoryManager
+  - EntityFactoryManager
+---
+
+CLASS: EventManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Map<String, List<EventListener>> listeners
+  - EventListener (inner functional interface)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - SoundManager
+  - PlayerManager
+  - EcoFactPopupManager
+  - InputStep
+  - CollisionStep
+  - EffectStep
+  - GameOverStep
+  - GameScene
+---
+
+CLASS: InputOutputManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Gdx (com.badlogic.gdx)
+  - Input (com.badlogic.gdx)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - InputStep
+  - MenuScene
+  - GameOverScene
+---
+
+CLASS: MovementManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Movable (interface)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - MovementStep
+---
+
+CLASS: RandomManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - MathUtils (com.badlogic.gdx.math)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - ObstacleFactoryManager
+  - CollectibleFactoryManager
+  - EntityFactoryManager
+  - SpawnStep
+  - GameScene
+---
+
+CLASS: RendererManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SpriteBatch batch (com.badlogic.gdx.graphics.g2d)
+  - ShapeRenderer shapeRenderer (com.badlogic.gdx.graphics.glutils)
+  - AssetManager assetManager
+  - Renderable (interface)
+  - RenderData
+  - Texture (com.badlogic.gdx.graphics)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - Scene
+  - GameScene
+  - HudManager
+  - EcoFactPopupManager
+---
+
+CLASS: SoundManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - EventManager eventManager
+  - Sound (com.badlogic.gdx.audio)
+  - Music (com.badlogic.gdx.audio)
+USED BY (Classes that depend on this):
+  - GameContextManager
+---
+
+CLASS: TimeManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.engine.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (primitive fields only)
+USED BY (Classes that depend on this):
+  - GameContextManager
+  - MovementStep
+  - UpdateStep
+  - EffectStep
+  - GameScene
+---
+
+======================================
+GAME PACKAGE - CONFIG (1 class)
+======================================
+
+CLASS: GameConfig
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.config
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (primitive and String fields only)
+USED BY (Classes that depend on this):
+  - PlayerManager
+  - SpawnStep
+  - GameScene
+---
+
+======================================
+GAME PACKAGE - EFFECTS (3 classes)
+======================================
+
+CLASS: GameEffect
+TYPE: Interface
+LOCATION: inf1009.p63.flappyearth.game.effects
+EXTENDS: None
+IMPLEMENTS: None (is an interface)
+COMPOSITION (Fields/Dependencies):
+  - ScoreManager (parameter)
+  - ActiveEffects (parameter)
+USED BY (Classes that depend on this):
+  - Collectible
+  - ShieldEffect (implements)
+  - SlowDownObstaclesEffect (implements)
+  - EffectStep
+---
+
+CLASS: ShieldEffect
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.effects
+EXTENDS: None
+IMPLEMENTS: GameEffect
+COMPOSITION (Fields/Dependencies):
+  - ScoreManager (method parameter)
+  - ActiveEffects (method parameter)
+USED BY (Classes that depend on this):
+  - RecyclingCollectible
+  - ReusableBottleCollectible
+---
+
+CLASS: SlowDownObstaclesEffect
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.effects
+EXTENDS: None
+IMPLEMENTS: GameEffect
+COMPOSITION (Fields/Dependencies):
+  - ScoreManager (method parameter)
+  - ActiveEffects (method parameter)
+USED BY (Classes that depend on this):
+  - TreeSaplingCollectible
+  - SolarPanelCollectible
+---
+
+========================================
+GAME PACKAGE - ENTITIES (4 classes)
+========================================
+
+CLASS: GameEntity
+TYPE: Abstract Class
+LOCATION: inf1009.p63.flappyearth.game.entities
+EXTENDS: Entity
+IMPLEMENTS: Updatable, Renderable, Collidable
+COMPOSITION (Fields/Dependencies):
+  - Entity (parent)
+  - Rectangle (from Entity)
+  - RenderData
+USED BY (Classes that depend on this):
+  - Player (extends)
+  - Obstacle (extends)
+  - Collectible (extends)
+---
+
+CLASS: Player
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities
+EXTENDS: GameEntity
+IMPLEMENTS: Movable
+COMPOSITION (Fields/Dependencies):
+  - GameEntity (parent)
+  - None (primitive fields only)
+USED BY (Classes that depend on this):
+  - PlayerManager
+  - CollisionStep
+  - CleanupStep
+  - GameOverStep
+  - ScoreStep
+---
+
+CLASS: Obstacle
+TYPE: Abstract Class
+LOCATION: inf1009.p63.flappyearth.game.entities
+EXTENDS: GameEntity
+IMPLEMENTS: None (inherited from GameEntity)
+COMPOSITION (Fields/Dependencies):
+  - GameEntity (parent)
+  - ObstacleType (inner enum)
+USED BY (Classes that depend on this):
+  - Pipe (extends)
+  - ObstacleManager
+  - ObstacleFactoryManager
+  - CollisionStep
+---
+
+CLASS: Collectible
+TYPE: Abstract Class
+LOCATION: inf1009.p63.flappyearth.game.entities
+EXTENDS: GameEntity
+IMPLEMENTS: None (inherited from GameEntity)
+COMPOSITION (Fields/Dependencies):
+  - GameEntity (parent)
+  - GameEffect effect
+  - CollectibleType (inner enum)
+USED BY (Classes that depend on this):
+  - GoodCollectible (extends)
+  - BadCollectible (extends)
+  - CollectibleManager
+  - CollectibleFactoryManager
+  - CollisionStep
+  - EffectStep
+---
+
+================================================
+GAME PACKAGE - ENTITIES.OBSTACLES (1 class)
+================================================
+
+CLASS: Pipe
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.obstacles
+EXTENDS: Obstacle
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - Obstacle (parent)
+USED BY (Classes that depend on this):
+  - ObstacleFactoryManager
+---
+
+====================================================
+GAME PACKAGE - ENTITIES.COLLECTIBLES (10 classes)
+====================================================
+
+CLASS: GoodCollectible
+TYPE: Abstract Class (package-private)
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: Collectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - Collectible (parent)
+  - GameEffect (inherited)
+USED BY (Classes that depend on this):
+  - RecyclingCollectible (extends)
+  - SolarPanelCollectible (extends)
+  - TreeSaplingCollectible (extends)
+  - ReusableBottleCollectible (extends)
+---
+
+CLASS: BadCollectible
+TYPE: Abstract Class (package-private)
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: Collectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - Collectible (parent)
+  - GameEffect (inherited, null)
+USED BY (Classes that depend on this):
+  - CarExhaustCollectible (extends)
+  - FactorySmokeCollectible (extends)
+  - OilSpillCollectible (extends)
+  - PlasticWasteCollectible (extends)
+---
+
+CLASS: RecyclingCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: GoodCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - GoodCollectible (parent)
+  - ShieldEffect
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: SolarPanelCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: GoodCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - GoodCollectible (parent)
+  - SlowDownObstaclesEffect
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: TreeSaplingCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: GoodCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - GoodCollectible (parent)
+  - SlowDownObstaclesEffect
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: ReusableBottleCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: GoodCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - GoodCollectible (parent)
+  - ShieldEffect
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: CarExhaustCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: BadCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - BadCollectible (parent)
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: FactorySmokeCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: BadCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - BadCollectible (parent)
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: OilSpillCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: BadCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - BadCollectible (parent)
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+CLASS: PlasticWasteCollectible
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.entities.collectibles
+EXTENDS: BadCollectible
+IMPLEMENTS: None (inherited)
+COMPOSITION (Fields/Dependencies):
+  - BadCollectible (parent)
+USED BY (Classes that depend on this):
+  - CollectibleFactoryManager
+---
+
+======================================
+GAME PACKAGE - EVENTS (5 classes)
+======================================
+
+CLASS: GameEvents
+TYPE: Concrete Class (Constants)
+LOCATION: inf1009.p63.flappyearth.game.events
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (static String constants only)
+USED BY (Classes that depend on this):
+  - PlayerManager
+  - InputStep
+  - CollisionStep
+  - EcoFactPopupManager
+  - GameOverStep
+  - EffectStep
+---
+
+CLASS: ObstaclePassedEvent
+TYPE: Concrete Class (Data)
+LOCATION: inf1009.p63.flappyearth.game.events
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (primitive fields only)
+USED BY (Classes that depend on this):
+  - (Event definition, not directly used in current code)
+---
+
+CLASS: GoodCollectedEvent
+TYPE: Concrete Class (Data)
+LOCATION: inf1009.p63.flappyearth.game.events
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (String and int fields)
+USED BY (Classes that depend on this):
+  - CollisionStep
+  - EffectStep
+---
+
+CLASS: BadHitEvent
+TYPE: Concrete Class (Data)
+LOCATION: inf1009.p63.flappyearth.game.events
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (String and int fields)
+USED BY (Classes that depend on this):
+  - CollisionStep
+  - GameOverStep
+---
+
+CLASS: FunFactRequestedEvent
+TYPE: Concrete Class (Data)
+LOCATION: inf1009.p63.flappyearth.game.events
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (String field only)
+USED BY (Classes that depend on this):
+  - EcoFactPopupManager
+---
+
+======================================
+GAME PACKAGE - STATE (2 classes)
+======================================
+
+CLASS: GameState
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.state
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SceneRequest (inner enum)
+USED BY (Classes that depend on this):
+  - InputStep
+  - MovementStep
+  - UpdateStep
+  - CollisionStep
+  - ScoreStep
+  - GameOverStep
+  - GameScene
+---
+
+CLASS: ActiveEffects
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.state
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (primitive fields only)
+USED BY (Classes that depend on this):
+  - ShieldEffect
+  - SlowDownObstaclesEffect
+  - HudManager
+  - CollisionStep
+  - EffectStep
+  - GameScene
+---
+
+========================================
+GAME PACKAGE - FACTORIES (3 classes)
+========================================
+
+CLASS: ObstacleFactoryManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.factories
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - RandomManager random
+  - EntityManager (method parameter)
+  - Obstacle
+  - Pipe
+USED BY (Classes that depend on this):
+  - EntityFactoryManager
+  - SpawnStep
+  - GameScene
+---
+
+CLASS: CollectibleFactoryManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.factories
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - EntityManager (method parameter)
+  - RandomManager (method parameter)
+  - Collectible
+  - RecyclingCollectible
+  - SolarPanelCollectible
+  - TreeSaplingCollectible
+  - ReusableBottleCollectible
+  - CarExhaustCollectible
+  - FactorySmokeCollectible
+  - PlasticWasteCollectible
+  - OilSpillCollectible
+USED BY (Classes that depend on this):
+  - EntityFactoryManager
+  - SpawnStep
+  - GameScene
+---
+
+CLASS: EntityFactoryManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.factories
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - ObstacleFactoryManager obstacleFactory
+  - CollectibleFactoryManager collectibleFactory
+  - RandomManager random
+  - EntityManager (method parameter)
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+========================================
+GAME PACKAGE - MANAGERS (6 classes)
+========================================
+
+CLASS: ScoreManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - None (primitive fields only)
+USED BY (Classes that depend on this):
+  - GameEffect
+  - ShieldEffect
+  - SlowDownObstaclesEffect
+  - HudManager
+  - ScoreStep
+  - EffectStep
+  - GameScene
+  - GameOverScene
+---
+
+CLASS: PlayerManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Player player
+  - EntityManager entityManager
+  - EventManager (constructor)
+  - GameConfig (method parameter)
+USED BY (Classes that depend on this):
+  - InputStep
+  - CollisionStep
+  - SpawnStep
+  - ScoreStep
+  - CleanupStep
+  - GameOverStep
+  - GameScene
+---
+
+CLASS: ObstacleManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - Obstacle
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+CLASS: CollectibleManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - Collectible
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+CLASS: HudManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - BitmapFont font (com.badlogic.gdx.graphics.g2d)
+  - ScoreManager scoreManager
+  - ActiveEffects activeEffects
+  - SpriteBatch (method parameter)
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+CLASS: EcoFactPopupManager
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.managers
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - BitmapFont font (com.badlogic.gdx.graphics.g2d)
+  - GlyphLayout layout (com.badlogic.gdx.graphics.g2d)
+  - EventManager eventManager
+  - Map<String, String> facts
+  - FunFactRequestedEvent
+  - GameEvents
+  - SpriteBatch (method parameter)
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+====================================
+GAME PACKAGE - LOOP (9 classes)
+====================================
+
+CLASS: GameLoop
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - List<StepManager> steps
+  - StepManager (interface)
+USED BY (Classes that depend on this):
+  - GameScene
+---
+
+CLASS: InputStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - InputOutputManager input
+  - EventManager eventManager
+  - GameState state
+  - GameEvents
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: MovementStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - MovementManager movementManager
+  - TimeManager timeManager
+  - GameState state
+  - Movable (interface)
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: UpdateStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - TimeManager timeManager
+  - GameState state
+  - Updatable (interface)
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: CollisionStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - CollisionManager collisionManager
+  - EventManager eventManager
+  - PlayerManager playerManager
+  - GameState state
+  - ActiveEffects activeEffects
+  - Player
+  - Obstacle
+  - Collectible
+  - BadHitEvent
+  - GoodCollectedEvent
+  - GameEvents
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: SpawnStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - PlayerManager playerManager
+  - ObstacleFactoryManager obstacleFactory
+  - CollectibleFactoryManager collectibleFactory
+  - RandomManager random
+  - GameState state
+  - GameConfig config
+  - Gdx (com.badlogic.gdx)
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: ScoreStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - PlayerManager playerManager
+  - GameState state
+  - ScoreManager scoreManager
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: EffectStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - ScoreManager scoreManager
+  - ActiveEffects activeEffects
+  - TimeManager timeManager
+  - EventManager (constructor)
+  - Collectible
+  - GoodCollectedEvent
+  - GameEvents
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: CleanupStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - EntityManager entityManager
+  - PlayerManager playerManager
+  - Player
+  - Entity
+  - Gdx (com.badlogic.gdx)
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+CLASS: GameOverStep
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.loop
+EXTENDS: None
+IMPLEMENTS: StepManager
+COMPOSITION (Fields/Dependencies):
+  - PlayerManager playerManager
+  - GameState state
+  - EventManager (constructor)
+  - Player
+  - BadHitEvent
+  - GameEvents
+  - Gdx (com.badlogic.gdx)
+USED BY (Classes that depend on this):
+  - GameScene (added to GameLoop)
+---
+
+=====================================
+GAME PACKAGE - SCENES (3 classes)
+=====================================
+
+CLASS: GameScene
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.scenes
+EXTENDS: Scene
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SceneManager sceneManager
+  - GameContextManager context
+  - GameState gameState
+  - GameConfig config
+  - ActiveEffects activeEffects
+  - PlayerManager playerManager
+  - ObstacleManager obstacleManager
+  - CollectibleManager collectibleManager
+  - ScoreManager scoreManager
+  - HudManager hudManager
+  - EcoFactPopupManager factPopupManager
+  - EntityFactoryManager entityFactory
+  - GameLoop gameLoopManager
+  - OrthographicCamera worldCamera
+  - EntityManager (inherited)
+  - RendererManager (inherited)
+  - InputStep
+  - SpawnStep
+  - UpdateStep
+  - MovementStep
+  - CollisionStep
+  - ScoreStep
+  - EffectStep
+  - CleanupStep
+  - GameOverStep
+  - GameOverScene (creates)
+USED BY (Classes that depend on this):
+  - MenuScene (creates instance)
+  - GameOverScene (can be recreated)
+---
+
+CLASS: MenuScene
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.scenes
+EXTENDS: Scene
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SceneManager sceneManager
+  - GameContextManager context
+  - SpriteBatch batch
+  - BitmapFont titleFont
+  - BitmapFont subFont
+  - GlyphLayout layout
+  - GameScene (creates)
+USED BY (Classes that depend on this):
+  - GameMaster (creates initial instance)
+  - GameOverScene (creates instance)
+---
+
+CLASS: GameOverScene
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.game.scenes
+EXTENDS: Scene
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - SceneManager sceneManager
+  - GameContextManager context
+  - int finalScore
+  - SpriteBatch batch
+  - BitmapFont headingFont
+  - BitmapFont bodyFont
+  - GlyphLayout layout
+  - MenuScene (creates)
+USED BY (Classes that depend on this):
+  - GameScene (creates instance on game over)
+---
+
+=====================================
+LAUNCHER PACKAGE (2 classes)
+=====================================
+
+CLASS: Lwjgl3Launcher
+TYPE: Concrete Class
+LOCATION: inf1009.p63.flappyearth.lwjgl3
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Lwjgl3Application (com.badlogic.gdx.backends.lwjgl3)
+  - Lwjgl3ApplicationConfiguration (com.badlogic.gdx.backends.lwjgl3)
+  - GameMaster
+  - StartupHelper
+USED BY (Classes that depend on this):
+  - None (entry point main method)
+---
+
+CLASS: StartupHelper
+TYPE: Concrete Class (Utility)
+LOCATION: inf1009.p63.flappyearth.lwjgl3
+EXTENDS: None
+IMPLEMENTS: None
+COMPOSITION (Fields/Dependencies):
+  - Various JVM and LWJGL system classes
+  - Lwjgl3NativesLoader (com.badlogic.gdx.backends.lwjgl3)
+USED BY (Classes that depend on this):
+  - Lwjgl3Launcher
+---
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+TOTAL CLASSES: 71
+
+BY TYPE:
+  - Interfaces: 6
+    * Collidable, Movable, Renderable, Updatable, StepManager, GameEffect
+  
+  - Abstract Classes: 5
+    * Entity, Scene, GameEntity, Obstacle, Collectible
+    * GoodCollectible, BadCollectible (package-private)
+  
+  - Concrete Classes: 60
+    * Engine infrastructure: 13
+    * Game entities: 10 (1 Player + 1 Pipe + 8 collectibles)
+    * Game managers: 6
+    * Game loop steps: 9
+    * Game scenes: 3
+    * Factories: 3
+    * State/Config/Events: 8
+    * Launcher: 2
+    * Utilities: 6
+
+BY PACKAGE:
+  - engine.interfaces: 5
+  - engine.entities: 2
+  - engine.core: 4
+  - engine.managers: 10
+  - game.config: 1
+  - game.effects: 3
+  - game.entities: 4
+  - game.entities.obstacles: 1
+  - game.entities.collectibles: 10
+  - game.events: 5
+  - game.state: 2
+  - game.factories: 3
+  - game.managers: 6
+  - game.loop: 9
+  - game.scenes: 3
+  - lwjgl3: 2
+
+INHERITANCE HIERARCHIES:
+
+1. Entity Hierarchy (Multi-level):
+   Entity (abstract)
+   └── GameEntity (abstract, implements Updatable, Renderable, Collidable)
+       ├── Player (concrete, implements Movable)
+       ├── Obstacle (abstract)
+       │   └── Pipe (concrete)
+       └── Collectible (abstract)
+           ├── GoodCollectible (abstract)
+           │   ├── RecyclingCollectible
+           │   ├── SolarPanelCollectible
+           │   ├── TreeSaplingCollectible
+           │   └── ReusableBottleCollectible
+           └── BadCollectible (abstract)
+               ├── CarExhaustCollectible
+               ├── FactorySmokeCollectible
+               ├── OilSpillCollectible
+               └── PlasticWasteCollectible
+
+2. Scene Hierarchy:
+   Scene (abstract)
+   ├── GameScene (concrete)
+   ├── MenuScene (concrete)
+   └── GameOverScene (concrete)
+
+3. Effect Hierarchy:
+   GameEffect (interface)
+   ├── ShieldEffect (implements)
+   └── SlowDownObstaclesEffect (implements)
+
+4. Step Hierarchy:
+   StepManager (interface)
+   ├── InputStep (implements)
+   ├── MovementStep (implements)
+   ├── UpdateStep (implements)
+   ├── CollisionStep (implements)
+   ├── SpawnStep (implements)
+   ├── ScoreStep (implements)
+   ├── EffectStep (implements)
+   ├── CleanupStep (implements)
+   └── GameOverStep (implements)
+
+5. GDX Framework Extension:
+   ApplicationAdapter (LibGDX)
+   └── GameMaster (extends)
+
+INTERFACE IMPLEMENTATIONS:
+  - Collidable: GameEntity (and all descendants)
+  - Movable: Player
+  - Renderable: GameEntity (and all descendants)
+  - Updatable: GameEntity (and all descendants)
+  - StepManager: All 9 step classes
+  - GameEffect: ShieldEffect, SlowDownObstaclesEffect
+
+KEY ARCHITECTURAL PATTERNS:
+
+1. MANAGER PATTERN: 
+   - 16 manager classes coordinate different aspects of the game
+
+2. FACTORY PATTERN:
+   - ObstacleFactoryManager, CollectibleFactoryManager, EntityFactoryManager
+
+3. OBSERVER/EVENT PATTERN:
+   - EventManager with publish/subscribe for loose coupling
+   - 5 event data classes
+
+4. TEMPLATE METHOD:
+   - Scene (abstract) with concrete implementations
+
+5. STRATEGY PATTERN:
+   - StepManager interface with different step implementations
+
+6. COMPOSITION OVER INHERITANCE:
+   - GameContextManager aggregates all engine managers
+   - GameScene aggregates all game managers
+
+DEPENDENCY FLOW:
+  Main → Lwjgl3Launcher → GameMaster → SceneManager → Scenes → Managers → Entities
+
+CROSS-CUTTING CONCERNS:
+  - EventManager: Used by 10+ classes for event communication
+  - EntityManager: Central registry used by 15+ classes
+  - GameContextManager: Provides dependencies to all scenes
+
+================================================================================
+END OF COMPLETE CLASS RELATIONSHIP MAP
+================================================================================
